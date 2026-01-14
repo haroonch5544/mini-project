@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - SkillPath AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+        /* Admin-specific styles */
+        .admin-container {
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        /* Login Form */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: var(--space-8);
+            background: var(--color-bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: var(--space-6);
+        }
+
+        .login-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--color-error);
+            color: var(--color-error);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-4);
+            display: none;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-8);
+            padding-bottom: var(--space-4);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        /* Tabs */
+        .admin-tabs {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-8);
+            background: var(--color-bg-tertiary);
+            padding: var(--space-2);
+            border-radius: var(--radius-lg);
+            flex-wrap: wrap;
+        }
+
+        .admin-tab {
+            padding: var(--space-3) var(--space-5);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            transition: var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .admin-tab:hover {
+            color: var(--color-text-primary);
+        }
+
+        .admin-tab.active {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .stat-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--color-text-secondary);
+            font-size: var(--text-sm);
+            margin-top: var(--space-2);
+        }
+
+        /* Skills Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--color-bg-card);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: var(--space-4);
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .data-table th {
+            background: var(--color-bg-tertiary);
+            font-weight: 600;
+            font-size: var(--text-sm);
+        }
+
+        .data-table td {
+            font-size: var(--text-sm);
+        }
+
+        .data-table tr:hover {
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        /* Forms */
+        .admin-form {
+            max-width: 600px;
+        }
+
+        .form-row {
+            margin-bottom: var(--space-4);
+        }
+
+        .form-row label {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-weight: 500;
+            font-size: var(--text-sm);
+        }
+
+        /* Action Buttons */
+        .btn-sm {
+            padding: var(--space-2) var(--space-3);
+            font-size: var(--text-xs);
+            border-radius: var(--radius-md);
+        }
+
+        .btn-danger {
+            background: var(--color-error);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--color-success);
+            color: white;
+        }
+
+        /* Top Skills Chart */
+        .chart-container {
+            margin-top: var(--space-6);
+        }
+
+        .skill-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-3);
+        }
+
+        .skill-bar-label {
+            width: 150px;
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .skill-bar-track {
+            flex: 1;
+            height: 24px;
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .skill-bar-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: var(--space-2);
+            font-size: var(--text-xs);
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Content Editor */
+        .content-item {
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .content-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-3);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal h3 {
+            margin-bottom: var(--space-6);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container container">
+
+        <!-- Login Form -->
+        <div class="login-container" id="loginContainer">
+            <h2>🔐 Admin Login</h2>
+            <div class="login-error" id="loginError">Invalid username or password</div>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" class="input-field" placeholder="Enter username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="input-field" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width:100%;margin-top:var(--space-4);">
+                    Login
+                </button>
+            </form>
+            <p
+                style="text-align:center;margin-top:var(--space-6);font-size:var(--text-sm);color:var(--color-text-muted);">
+                <a href="./index.html" style="color:var(--color-accent-purple);">← Back to main site</a>
+            </p>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboard">
+            <div class="dashboard-header">
+                <div>
+                    <h2>🎯 SkillPath Admin</h2>
+                    <p style="color:var(--color-text-muted);font-size:var(--text-sm);">Manage your application</p>
+                </div>
+                <div style="display:flex;gap:var(--space-3);">
+                    <a href="./index.html" class="btn btn-secondary">View Site</a>
+                    <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" data-tab="analytics">📊 Analytics</button>
+                <button class="admin-tab" data-tab="skills">🎯 Skills</button>
+                <button class="admin-tab" data-tab="faqs">❓ FAQs</button>
+                <button class="admin-tab" data-tab="tips">💡 Tips</button>
+                <button class="admin-tab" data-tab="testimonials">⭐ Testimonials</button>
+                <button class="admin-tab" data-tab="settings">⚙️ Settings</button>
+            </div>
+
+            <!-- Analytics Panel -->
+            <div class="tab-panel active" id="analyticsPanel">
+                <h3>Usage Analytics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalAnalyses">0</div>
+                        <div class="stat-label">Total Analyses</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="uniqueSkills">0</div>
+                        <div class="stat-label">Unique Skills Detected</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="todayUsage">0</div>
+                        <div class="stat-label">Today's Usage</div>
+                    </div>
+                </div>
+
+                <h4>Top Skills Detected</h4>
+                <div class="chart-container" id="topSkillsChart">
+                    <p style="color:var(--color-text-muted);">No data yet. Run some analyses to see stats.</p>
+                </div>
+
+                <button class="btn btn-secondary" style="margin-top:var(--space-6);" id="resetAnalyticsBtn">
+                    Reset Analytics
+                </button>
+            </div>
+
+            <!-- Skills Panel -->
+            <div class="tab-panel" id="skillsPanel">
+                <div
+                    style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);">
+                    <h3>Custom Skills</h3>
+                    <button class="btn btn-primary" id="addSkillBtn">+ Add Skill</button>
+                </div>
+                <div id="customSkillsList">
+                    <p style="color:var(--color-text-muted);">No custom skills added yet.</p>
+                </div>
+            </div>
+
+            <!-- FAQs Panel -->
+            <div class="tab-panel" id="faqsPanel">
+                <div
+                    style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);">
+                    <h3>Edit FAQs</h3>
+                    <button class="btn btn-primary" id="addFaqBtn">+ Add FAQ</button>
+                </div>
+                <div id="faqsList"></div>
+                <button class="btn btn-success" style="margin-top:var(--space-4);" id="saveFaqsBtn">Save FAQs</button>
+            </div>
+
+            <!-- Tips Panel -->
+            <div class="tab-panel" id="tipsPanel">
+                <div
+                    style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);">
+                    <h3>Edit Tips</h3>
+                    <button class="btn btn-primary" id="addTipBtn">+ Add Tip</button>
+                </div>
+                <div id="tipsList"></div>
+                <button class="btn btn-success" style="margin-top:var(--space-4);" id="saveTipsBtn">Save Tips</button>
+            </div>
+
+            <!-- Testimonials Panel -->
+            <div class="tab-panel" id="testimonialsPanel">
+                <div
+                    style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6);">
+                    <h3>Edit Testimonials</h3>
+                    <button class="btn btn-primary" id="addTestimonialBtn">+ Add Testimonial</button>
+                </div>
+                <div id="testimonialsList"></div>
+                <button class="btn btn-success" style="margin-top:var(--space-4);" id="saveTestimonialsBtn">Save
+                    Testimonials</button>
+            </div>
+
+            <!-- Settings Panel -->
+            <div class="tab-panel" id="settingsPanel">
+                <h3>Change Password</h3>
+                <form class="admin-form" id="passwordForm">
+                    <div class="form-row">
+                        <label>Current Password</label>
+                        <input type="password" id="currentPassword" class="input-field" required>
+                    </div>
+                    <div class="form-row">
+                        <label>New Password</label>
+                        <input type="password" id="newPassword" class="input-field" required>
+                    </div>
+                    <div class="form-row">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="confirmPassword" class="input-field" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Password</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Skill Modal -->
+        <div class="modal-overlay" id="skillModal">
+            <div class="modal">
+                <h3 id="skillModalTitle">Add New Skill</h3>
+                <form id="skillForm">
+                    <div class="form-row">
+                        <label>Skill Name *</label>
+                        <input type="text" id="skillName" class="input-field" placeholder="e.g., Project Management"
+                            required>
+                    </div>
+                    <div class="form-row">
+                        <label>Category *</label>
+                        <input type="text" id="skillCategory" class="input-field" placeholder="e.g., Soft Skills"
+                            required>
+                    </div>
+                    <div class="form-row">
+                        <label>Description</label>
+                        <textarea id="skillDescription" class="input-field" rows="2"
+                            placeholder="Brief description"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <label>Time to Learn</label>
+                        <input type="text" id="skillTime" class="input-field" placeholder="e.g., 2-3 months">
+                    </div>
+                    <div class="form-row">
+                        <label>Difficulty</label>
+                        <select id="skillDifficulty" class="input-field">
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;gap:var(--space-3);margin-top:var(--space-6);">
+                        <button type="submit" class="btn btn-primary">Save Skill</button>
+                        <button type="button" class="btn btn-secondary" id="closeSkillModal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="./storage.js"></script>
+    <script src="./admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="SkillPath AI - Transform any job posting into a personalized skill roadmap with curated learning resources.">
+  <title>SkillPath AI - Job Based Skill Roadmap Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="container">
+      <a href="#" class="logo">
+        <div class="logo-icon">🎯</div>
+        <span>SkillPath AI</span>
+      </a>
+      <nav class="nav">
+        <ul class="nav-links">
+          <li><a href="#features" class="nav-link">Features</a></li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li><a href="#tool" class="nav-link">Try Tool</a></li>
+          <li><a href="#tips" class="nav-link">Tips</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+        </ul>
+        <a href="#tool" class="btn btn-primary">Get Started</a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+    <ul class="mobile-nav-links">
+      <li><a href="#features" class="mobile-nav-link">Features</a></li>
+      <li><a href="#how-it-works" class="mobile-nav-link">How It Works</a></li>
+      <li><a href="#tool" class="mobile-nav-link">Try Tool</a></li>
+      <li><a href="#tips" class="mobile-nav-link">Tips</a></li>
+      <li><a href="#faq" class="mobile-nav-link">FAQ</a></li>
+    </ul>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-text">
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            <span>AI-Powered Career Tool</span>
+          </div>
+          <h1>Turn Job Posts Into Your <span class="text-gradient">Skill Roadmap</span></h1>
+          <p class="hero-description">Paste any job posting and let our AI analyze the required skills, create a
+            personalized learning roadmap, and recommend the best resources to land your dream job.</p>
+          <div class="hero-buttons">
+            <a href="#tool" class="btn btn-primary btn-lg btn-pulse"><span>🚀</span> Analyze a Job Now</a>
+            <a href="#how-it-works" class="btn btn-secondary btn-lg"><span>📖</span> Learn How It Works</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-card">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+              <div
+                style="width:40px;height:40px;background:var(--gradient-secondary);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                💼</div>
+              <div>
+                <div style="font-weight:600;font-size:14px;">Senior Frontend Developer</div>
+                <div style="font-size:12px;color:var(--color-text-muted);">TechCorp Inc. • Remote</div>
+              </div>
+            </div>
+            <div style="margin-bottom:16px;">
+              <div style="font-size:12px;color:var(--color-text-muted);margin-bottom:8px;">Detected Skills</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                <span
+                  style="padding:4px 12px;background:rgba(139,92,246,0.2);border-radius:20px;font-size:12px;">React</span>
+                <span
+                  style="padding:4px 12px;background:rgba(59,130,246,0.2);border-radius:20px;font-size:12px;">TypeScript</span>
+                <span
+                  style="padding:4px 12px;background:rgba(6,182,212,0.2);border-radius:20px;font-size:12px;">Node.js</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2>Why Choose <span class="text-gradient">SkillPath AI</span></h2>
+        <p>Our AI-powered tool helps you bridge the gap between where you are and where you want to be.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animate-on-scroll stagger-1">
+          <div class="feature-icon">🔍</div>
+          <h4>Smart Job Analysis</h4>
+          <p>Our AI scans job postings from LinkedIn, ss.lv, and other platforms to extract key requirements instantly.
+          </p>
+        </div>
+        <div class="feature-card animate-on-scroll stagger-2">
+          <div class="feature-icon">🗺️</div>
+          <h4>Personalized Roadmaps</h4>
+          <p>Get a step-by-step learning path tailored to the specific job, with estimated time for each skill.</p>
+        </div>
+        <div class="feature-card animate-on-scroll stagger-3">
+          <div class="feature-icon">📚</div>
+          <h4>Curated Resources</h4>
+          <p>Access hand-picked courses from Coursera, Udemy, LinkedIn Learning, freeCodeCamp, and more.</p>
+        </div>
+        <div class="feature-card animate-on-scroll stagger-4">
+          <div class="feature-icon">⚡</div>
+          <h4>Instant Results</h4>
+          <p>No waiting, no sign-ups required. Paste your job posting and get your roadmap in seconds.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section" id="how-it-works" style="background:var(--color-bg-secondary);">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2>How It <span class="text-gradient">Works</span></h2>
+        <p>Three simple steps to your personalized career roadmap</p>
+      </div>
+      <div class="steps-container">
+        <div class="step-card animate-on-scroll stagger-1">
+          <div class="step-number">1</div>
+          <h4>Paste Job Posting</h4>
+          <p>Copy the job URL from LinkedIn, ss.lv, or paste the job description directly into our tool.</p>
+        </div>
+        <div class="step-card animate-on-scroll stagger-2">
+          <div class="step-number">2</div>
+          <h4>AI Analyzes Skills</h4>
+          <p>Our AI engine identifies required skills, experience levels, and categorizes them by importance.</p>
+        </div>
+        <div class="step-card animate-on-scroll stagger-3">
+          <div class="step-number">3</div>
+          <h4>Get Your Roadmap</h4>
+          <p>Receive a structured learning plan with time estimates and links to the best learning platforms.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tool Section -->
+  <section class="section tool-section" id="tool">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2>Start Your <span class="text-gradient">Skill Analysis</span></h2>
+        <p>Paste a job posting below and discover the skills you need to succeed</p>
+      </div>
+      <div class="tool-container animate-on-scroll">
+        <div class="tool-header">
+          <h3>🎯 Job Analyzer</h3>
+        </div>
+        <div class="tool-body">
+          <div class="input-tabs">
+            <button class="input-tab active" data-tab="description">📝 Paste Job Description</button>
+            <button class="input-tab" data-tab="url">🔗 Enter Job URL</button>
+          </div>
+          <div class="input-panel" id="descriptionPanel">
+            <div class="input-group">
+              <label for="jobDescription">Job Description</label>
+              <textarea id="jobDescription" class="input-field"
+                placeholder="Paste the full job description here..."></textarea>
+            </div>
+          </div>
+          <div class="input-panel hidden" id="urlPanel">
+            <div class="input-group">
+              <label for="jobUrl">Job Posting URL</label>
+              <input type="url" id="jobUrl" class="input-field"
+                placeholder="https://www.linkedin.com/jobs/view/123456789">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-lg analyze-btn" id="analyzeBtn"><span>✨</span> Analyze & Generate
+            Roadmap</button>
+          <div class="loading-state" id="loadingState">
+            <div class="loader"></div>
+            <p class="loading-text">Analyzing job requirements...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tips Section -->
+  <section class="section" id="tips">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2>Career <span class="text-gradient">Tips</span></h2>
+        <p>Expert advice to accelerate your job search</p>
+      </div>
+      <div class="tips-carousel">
+        <div class="tips-track">
+          <div class="tip-card">
+            <h5>🎯 Tailor Your Resume</h5>
+            <p>Customize your resume for each job. Use keywords from the job posting.</p>
+          </div>
+          <div class="tip-card">
+            <h5>🌐 Build Online Presence</h5>
+            <p>Create a strong LinkedIn profile. 87% of recruiters use LinkedIn.</p>
+          </div>
+          <div class="tip-card">
+            <h5>📚 Learn in Public</h5>
+            <p>Share your learning journey on social media to build credibility.</p>
+          </div>
+          <div class="tip-card">
+            <h5>🤝 Network Strategically</h5>
+            <p>70% of jobs are filled through networking. Connect wisely.</p>
+          </div>
+          <div class="tip-card">
+            <h5>💡 Focus on Projects</h5>
+            <p>Build real projects to showcase skills. Experience beats certificates.</p>
+          </div>
+          <div class="tip-card">
+            <h5>🔄 Keep Learning</h5>
+            <p>Dedicate 5+ hours weekly to learning new skills.</p>
+          </div>
+          <div class="tip-card">
+            <h5>🎯 Tailor Your Resume</h5>
+            <p>Customize your resume for each job. Use keywords from the job posting.</p>
+          </div>
+          <div class="tip-card">
+            <h5>🌐 Build Online Presence</h5>
+            <p>Create a strong LinkedIn profile. 87% of recruiters use LinkedIn.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="section" id="testimonials" style="background:var(--color-bg-secondary);">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2>Success <span class="text-gradient">Stories</span></h2>
+        <p>See how SkillPath AI has helped professionals</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card animate-on-scroll stagger-1">
+          <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"SkillPath AI gave me a clear 6-month roadmap for Data Science. I landed my dream
+            job!"</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MK</div>
+            <div class="testimonial-info">
+              <h6>Maria K.</h6><span>Data Scientist</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card animate-on-scroll stagger-2">
+          <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"The learning resources were spot-on. Got hired as Frontend Developer in 3
+            months."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">JP</div>
+            <div class="testimonial-info">
+              <h6>James P.</h6><span>Frontend Developer</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card animate-on-scroll stagger-3">
+          <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+          <p class="testimonial-text">"As a career switcher, this tool created the perfect step-by-step plan for me."
+          </p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">SL</div>
+            <div class="testimonial-info">
+              <h6>Sarah L.</h6><span>Product Manager</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-header animate-on-scroll">
+        <h2>Frequently Asked <span class="text-gradient">Questions</span></h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question"><span>Is SkillPath AI free to use?</span><span class="faq-icon">+</span></button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">Yes! SkillPath AI is completely free. Analyze unlimited job postings without
+              any cost.</div>
+          </div>
+        </div>
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question"><span>What job platforms are supported?</span><span
+              class="faq-icon">+</span></button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">Paste descriptions from LinkedIn, ss.lv, Indeed, Glassdoor, and any career
+              page.</div>
+          </div>
+        </div>
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question"><span>How accurate is the skill analysis?</span><span
+              class="faq-icon">+</span></button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">Our AI achieves 85-95% accuracy for major skill categories.</div>
+          </div>
+        </div>
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question"><span>Are the learning resources verified?</span><span
+              class="faq-icon">+</span></button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">Yes, we curate resources from Coursera, Udemy, LinkedIn Learning, and
+              freeCodeCamp.</div>
+          </div>
+        </div>
+        <div class="faq-item animate-on-scroll">
+          <button class="faq-question"><span>Can I save my roadmap?</span><span class="faq-icon">+</span></button>
+          <div class="faq-answer">
+            <div class="faq-answer-content">Use the "Copy Roadmap" button to save your roadmap to clipboard.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-content animate-on-scroll">
+        <h2>Ready to Launch Your <span class="text-gradient">Career</span>?</h2>
+        <p>Stop guessing what skills you need. Let AI guide your learning journey.</p>
+        <a href="#tool" class="btn btn-primary btn-lg btn-pulse"><span>🚀</span> Start Free Analysis</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="#" class="logo">
+            <div class="logo-icon">🎯</div><span>SkillPath AI</span>
+          </a>
+          <p>Empowering job seekers with AI-powered skill analysis and personalized learning roadmaps.</p>
+          <div class="social-links">
+            <a href="#" class="social-link">𝕏</a>
+            <a href="#" class="social-link">in</a>
+            <a href="#" class="social-link">⌘</a>
+          </div>
+        </div>
+        <div class="footer-column">
+          <h6>Product</h6>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li><a href="#tool">Job Analyzer</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h6>Resources</h6>
+          <ul>
+            <li><a href="#tips">Career Tips</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Skill Guides</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h6>Company</h6>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 SkillPath AI. Made with ❤️ for job seekers.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./storage.js"></script>
+  <script src="./resources.js"></script>
+  <script src="./analyzer.js"></script>
+  <script src="./main.js"></script>
+  <script src="./auth.js"></script>
+</body>
+
+</html>

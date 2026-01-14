@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Skill Roadmap - SkillPath AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+        /* Roadmap Page Specific Styles */
+        .roadmap-page {
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .roadmap-header h1 {
+            margin-bottom: var(--space-4);
+        }
+
+        /* Progress Overview */
+        .progress-overview {
+            background: var(--color-bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            margin-bottom: var(--space-8);
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: var(--space-6);
+            margin-bottom: var(--space-6);
+        }
+
+        .progress-stat {
+            text-align: center;
+        }
+
+        .progress-stat-value {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .progress-stat-label {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            margin-top: var(--space-1);
+        }
+
+        /* Progress Bar */
+        .progress-bar-container {
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-full);
+            height: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+        }
+
+        .progress-bar-text {
+            font-size: var(--text-xs);
+            font-weight: 600;
+            color: white;
+        }
+
+        /* Job Info Card */
+        .job-info-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-6);
+            margin-bottom: var(--space-8);
+        }
+
+        .job-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: var(--space-4);
+        }
+
+        .job-title-section h2 {
+            margin-bottom: var(--space-2);
+        }
+
+        .job-badges {
+            display: flex;
+            gap: var(--space-2);
+            flex-wrap: wrap;
+        }
+
+        .job-badge {
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            color: var(--color-text-secondary);
+        }
+
+        /* Skill Cards with Checkbox */
+        .skills-section {
+            margin-bottom: var(--space-8);
+        }
+
+        .skills-section h3 {
+            margin-bottom: var(--space-4);
+        }
+
+        .skill-progress-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            margin-bottom: var(--space-4);
+            transition: var(--transition-normal);
+        }
+
+        .skill-progress-card:hover {
+            border-color: var(--color-accent-purple);
+        }
+
+        .skill-progress-card.completed {
+            border-color: var(--color-success);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .skill-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+            margin-bottom: var(--space-3);
+        }
+
+        .skill-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--color-accent-purple);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: var(--transition-fast);
+        }
+
+        .skill-checkbox:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .skill-checkbox.checked {
+            background: var(--color-success);
+            border-color: var(--color-success);
+        }
+
+        .skill-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .skill-card-content {
+            flex: 1;
+        }
+
+        .skill-card-title {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+
+        .skill-card-title h4 {
+            margin: 0;
+        }
+
+        .skill-order {
+            width: 28px;
+            height: 28px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xs);
+            font-weight: 600;
+            color: white;
+        }
+
+        .skill-card-meta {
+            display: flex;
+            gap: var(--space-4);
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-3);
+        }
+
+        .skill-card-description {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        .skill-resources {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        .resource-chip {
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            color: var(--color-accent-cyan);
+            text-decoration: none;
+            transition: var(--transition-fast);
+        }
+
+        .resource-chip:hover {
+            background: var(--color-accent-purple);
+            color: white;
+        }
+
+        /* Action Buttons */
+        .roadmap-actions {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: var(--space-8);
+            padding-top: var(--space-8);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* No Data State */
+        .no-data {
+            text-align: center;
+            padding: var(--space-16);
+        }
+
+        .no-data h2 {
+            margin-bottom: var(--space-4);
+        }
+
+        .no-data p {
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-6);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="./index.html" class="logo">
+                <div class="logo-icon">🎯</div>
+                <span>SkillPath AI</span>
+            </a>
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="./index.html#features" class="nav-link">Features</a></li>
+                    <li><a href="./index.html#tool" class="nav-link">Analyze Job</a></li>
+                    <li><a href="./index.html#tips" class="nav-link">Tips</a></li>
+                </ul>
+                <a href="./index.html#tool" class="btn btn-primary">New Analysis</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="roadmap-page">
+        <div class="container">
+
+            <!-- No Data State (shown when no roadmap exists) -->
+            <div class="no-data" id="noDataState" style="display:none;">
+                <h2>🗺️ No Roadmap Yet</h2>
+                <p>Analyze a job posting first to generate your personalized skill roadmap.</p>
+                <a href="./index.html#tool" class="btn btn-primary btn-lg">Analyze a Job</a>
+            </div>
+
+            <!-- Roadmap Content -->
+            <div id="roadmapContent">
+
+                <!-- Header -->
+                <div class="roadmap-header">
+                    <h1>Your <span class="text-gradient">Skill Roadmap</span></h1>
+                    <p id="roadmapDate">Generated on loading...</p>
+                </div>
+
+                <!-- Progress Overview -->
+                <div class="progress-overview">
+                    <div class="progress-stats">
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="completedCount">0</div>
+                            <div class="progress-stat-label">Skills Completed</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="totalCount">0</div>
+                            <div class="progress-stat-label">Total Skills</div>
+                        </div>
+                        <div class="progress-stat">
+                            <div class="progress-stat-value" id="progressPercent">0%</div>
+                            <div class="progress-stat-label">Progress</div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;">
+                            <span class="progress-bar-text" id="progressBarText">0%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Info -->
+                <div class="job-info-card">
+                    <div class="job-info-header">
+                        <div class="job-title-section">
+                            <h2 id="jobTitleDisplay">Loading...</h2>
+                            <div class="job-badges">
+                                <span class="job-badge" id="experienceBadge">📊 Loading</span>
+                                <span class="job-badge" id="typeBadge">💼 Loading</span>
+                                <span class="job-badge" id="skillsBadge">🎯 0 skills</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills List -->
+                <div class="skills-section">
+                    <h3>📍 Learning Path</h3>
+                    <div id="skillsList">
+                        <!-- Skills will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="roadmap-actions">
+                    <button class="btn btn-primary" id="saveToAccountBtn" style="display:none;">
+                        <span>💾</span> Save to Account
+                    </button>
+                    <button class="btn btn-secondary" id="copyRoadmapBtn">
+                        <span>📋</span> Copy Roadmap
+                    </button>
+                    <button class="btn btn-secondary" id="resetProgressBtn">
+                        <span>🔄</span> Reset Progress
+                    </button>
+                    <a href="./index.html#tool" class="btn btn-secondary">
+                        <span>🔍</span> Analyze Another Job
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top:var(--space-16);">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 SkillPath AI. Made with ❤️ for job seekers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./storage.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./resources.js"></script>
+    <script>
+        // Roadmap Page Controller
+        let currentRoadmapId = null; // Server roadmap ID
+        let currentData = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRoadmap();
+            initProgressTracker();
+            initActions();
+        });
+
+        async function loadRoadmap() {
+            // Check for server roadmap ID in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const serverId = urlParams.get('id');
+
+            if (serverId && AuthClient.isLoggedIn()) {
+                // Load from server
+                try {
+                    const roadmap = await AuthClient.getRoadmap(serverId);
+                    currentRoadmapId = serverId;
+                    currentData = {
+                        metadata: { title: roadmap.jobTitle },
+                        experienceLevel: roadmap.experienceLevel,
+                        jobType: roadmap.jobType,
+                        totalSkills: roadmap.totalSkills,
+                        roadmap: roadmap.roadmap,
+                        timestamp: roadmap.createdAt
+                    };
+                    // Store progress from server
+                    localStorage.setItem('skillpath_progress', JSON.stringify(roadmap.progress || {}));
+                    renderRoadmap(currentData);
+
+                    // Hide save button (already saved)
+                    document.getElementById('saveToAccountBtn').style.display = 'none';
+                    return;
+                } catch (error) {
+                    console.error('Failed to load from server:', error);
+                }
+            }
+
+            // Load from localStorage
+            const roadmapData = localStorage.getItem('skillpath_current_roadmap');
+
+            if (!roadmapData) {
+                document.getElementById('noDataState').style.display = 'block';
+                document.getElementById('roadmapContent').style.display = 'none';
+                return;
+            }
+
+            currentData = JSON.parse(roadmapData);
+            renderRoadmap(currentData);
+
+            // Show save button if logged in
+            if (AuthClient.isLoggedIn()) {
+                document.getElementById('saveToAccountBtn').style.display = 'inline-flex';
+            }
+        }
+
+        function renderRoadmap(data) {
+            // Set date
+            const date = new Date(data.timestamp);
+            document.getElementById('roadmapDate').textContent =
+                `Generated on ${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`;
+
+            // Set job info
+            document.getElementById('jobTitleDisplay').textContent = data.metadata.title;
+            document.getElementById('experienceBadge').textContent = `📊 ${data.experienceLevel}`;
+            document.getElementById('typeBadge').textContent = `💼 ${data.jobType}`;
+            document.getElementById('skillsBadge').textContent = `🎯 ${data.totalSkills} skills`;
+
+            // Load progress from storage
+            const progress = JSON.parse(localStorage.getItem('skillpath_progress') || '{}');
+
+            // Render skills
+            const skillsList = document.getElementById('skillsList');
+            skillsList.innerHTML = '';
+
+            data.roadmap.forEach(skill => {
+                const isCompleted = progress[skill.skill] === true;
+                const card = document.createElement('div');
+                card.className = `skill-progress-card ${isCompleted ? 'completed' : ''}`;
+                card.dataset.skill = skill.skill;
+
+                const resourceLinks = skill.resources.length > 0
+                    ? skill.resources.map(r =>
+                        `<a href="${r.url}" target="_blank" class="resource-chip">${r.free ? '🆓' : '💰'} ${r.platform}</a>`
+                    ).join('')
+                    : '<span class="resource-chip">No resources available</span>';
+
+                card.innerHTML = `
+          <div class="skill-card-header">
+            <div class="skill-checkbox ${isCompleted ? 'checked' : ''}" data-skill="${skill.skill}"></div>
+            <div class="skill-card-content">
+              <div class="skill-card-title">
+                <span class="skill-order">${skill.order}</span>
+                <h4>${skill.skill}</h4>
+              </div>
+              <div class="skill-card-meta">
+                <span>⏱️ ${skill.timeToLearn}</span>
+                <span>📈 ${skill.difficulty}</span>
+                <span>🏷️ ${skill.category}</span>
+              </div>
+              <p class="skill-card-description">${skill.description}</p>
+              <div class="skill-resources">${resourceLinks}</div>
+            </div>
+          </div>
+        `;
+
+                skillsList.appendChild(card);
+            });
+
+            updateProgress();
+        }
+
+        function initProgressTracker() {
+            document.addEventListener('click', async (e) => {
+                if (e.target.classList.contains('skill-checkbox')) {
+                    const skillName = e.target.dataset.skill;
+                    const progress = JSON.parse(localStorage.getItem('skillpath_progress') || '{}');
+
+                    if (progress[skillName]) {
+                        delete progress[skillName];
+                        e.target.classList.remove('checked');
+                        e.target.closest('.skill-progress-card').classList.remove('completed');
+                    } else {
+                        progress[skillName] = true;
+                        e.target.classList.add('checked');
+                        e.target.closest('.skill-progress-card').classList.add('completed');
+                    }
+
+                    localStorage.setItem('skillpath_progress', JSON.stringify(progress));
+                    updateProgress();
+
+                    // Sync to server if this is a saved roadmap
+                    if (currentRoadmapId && AuthClient.isLoggedIn()) {
+                        try {
+                            await AuthClient.updateProgress(currentRoadmapId, progress);
+                        } catch (e) {
+                            console.error('Failed to sync progress:', e);
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateProgress() {
+            const progress = JSON.parse(localStorage.getItem('skillpath_progress') || '{}');
+            const totalSkills = currentData?.roadmap?.length || 0;
+            const completedSkills = Object.keys(progress).filter(k => progress[k]).length;
+            const percent = totalSkills > 0 ? Math.round((completedSkills / totalSkills) * 100) : 0;
+
+            document.getElementById('completedCount').textContent = completedSkills;
+            document.getElementById('totalCount').textContent = totalSkills;
+            document.getElementById('progressPercent').textContent = `${percent}%`;
+            document.getElementById('progressBarFill').style.width = `${Math.max(percent, 5)}%`;
+            document.getElementById('progressBarText').textContent = `${percent}%`;
+        }
+
+        function initActions() {
+            // Save to account
+            document.getElementById('saveToAccountBtn').addEventListener('click', async () => {
+                if (!AuthClient.isLoggedIn()) {
+                    AuthUI.openModal('login');
+                    return;
+                }
+
+                const btn = document.getElementById('saveToAccountBtn');
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span> Saving...';
+
+                try {
+                    const progress = JSON.parse(localStorage.getItem('skillpath_progress') || '{}');
+                    const result = await AuthClient.saveRoadmap({
+                        jobTitle: currentData.metadata.title,
+                        jobType: currentData.jobType,
+                        experienceLevel: currentData.experienceLevel,
+                        roadmap: currentData.roadmap,
+                        progress: progress
+                    });
+
+                    currentRoadmapId = result.roadmap.id;
+                    btn.innerHTML = '<span>✅</span> Saved!';
+                    btn.disabled = true;
+
+                    // Update URL
+                    window.history.replaceState({}, '', `roadmap.html?id=${currentRoadmapId}`);
+                } catch (error) {
+                    btn.innerHTML = '<span>❌</span> Failed';
+                    setTimeout(() => {
+                        btn.innerHTML = '<span>💾</span> Save to Account';
+                        btn.disabled = false;
+                    }, 2000);
+                    alert('Failed to save: ' + error.message);
+                }
+            });
+
+            // Copy roadmap
+            document.getElementById('copyRoadmapBtn').addEventListener('click', () => {
+                const progress = JSON.parse(localStorage.getItem('skillpath_progress') || '{}');
+
+                let text = `🎯 SkillPath AI - Skill Roadmap\n`;
+                text += `${'='.repeat(40)}\n\n`;
+                text += `📋 Position: ${currentData.metadata?.title}\n`;
+                text += `📊 Experience: ${currentData.experienceLevel}\n`;
+                text += `💼 Type: ${currentData.jobType}\n\n`;
+                text += `📍 Learning Roadmap:\n\n`;
+
+                currentData.roadmap?.forEach(skill => {
+                    const status = progress[skill.skill] ? '✅' : '⬜';
+                    text += `${status} ${skill.order}. ${skill.skill} (${skill.timeToLearn})\n`;
+                });
+
+                navigator.clipboard.writeText(text).then(() => {
+                    const btn = document.getElementById('copyRoadmapBtn');
+                    btn.innerHTML = '<span>✅</span> Copied!';
+                    setTimeout(() => btn.innerHTML = '<span>📋</span> Copy Roadmap', 2000);
+                });
+            });
+
+            // Reset progress
+            document.getElementById('resetProgressBtn').addEventListener('click', async () => {
+                if (confirm('Reset all progress? This cannot be undone.')) {
+                    localStorage.removeItem('skillpath_progress');
+
+                    // Sync to server
+                    if (currentRoadmapId && AuthClient.isLoggedIn()) {
+                        try {
+                            await AuthClient.updateProgress(currentRoadmapId, {});
+                        } catch (e) { }
+                    }
+
+                    location.reload();
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

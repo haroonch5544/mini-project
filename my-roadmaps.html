@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Roadmaps - SkillPath AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css">
+    <style>
+        .my-roadmaps-page {
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: var(--space-8);
+        }
+
+        .roadmaps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: var(--space-6);
+        }
+
+        .roadmap-card {
+            background: var(--color-bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            transition: var(--transition-normal);
+        }
+
+        .roadmap-card:hover {
+            border-color: var(--color-accent-purple);
+            transform: translateY(-4px);
+        }
+
+        .roadmap-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-4);
+        }
+
+        .roadmap-card h3 {
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-1);
+        }
+
+        .roadmap-card-meta {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+
+        .roadmap-card-delete {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            font-size: 18px;
+            padding: var(--space-1);
+        }
+
+        .roadmap-card-delete:hover {
+            color: var(--color-error);
+        }
+
+        .roadmap-progress {
+            margin: var(--space-4) 0;
+        }
+
+        .roadmap-progress-bar {
+            height: 8px;
+            background: var(--color-bg-tertiary);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .roadmap-progress-fill {
+            height: 100%;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+        }
+
+        .roadmap-progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+            margin-top: var(--space-2);
+        }
+
+        .roadmap-card-footer {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--space-16);
+            background: var(--color-bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+        }
+
+        .empty-state h3 {
+            margin-bottom: var(--space-4);
+        }
+
+        .empty-state p {
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-6);
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: var(--space-16);
+        }
+
+        .not-logged-in {
+            text-align: center;
+            padding: var(--space-16);
+        }
+
+        .not-logged-in h2 {
+            margin-bottom: var(--space-4);
+        }
+
+        .not-logged-in p {
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-6);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="./index.html" class="logo">
+                <div class="logo-icon">🎯</div>
+                <span>SkillPath AI</span>
+            </a>
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="./index.html#features" class="nav-link">Features</a></li>
+                    <li><a href="./index.html#tool" class="nav-link">Analyze Job</a></li>
+                    <li><a href="./my-roadmaps.html" class="nav-link" style="color:var(--color-accent-purple)">My
+                            Roadmaps</a></li>
+                </ul>
+                <a href="./index.html#tool" class="btn btn-primary">New Analysis</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="my-roadmaps-page">
+        <div class="container">
+
+            <!-- Not Logged In State -->
+            <div class="not-logged-in" id="notLoggedIn" style="display:none;">
+                <h2>🔐 Login Required</h2>
+                <p>Sign in to view and manage your saved roadmaps.</p>
+                <button class="btn btn-primary btn-lg" id="loginRequiredBtn">Login / Sign Up</button>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="loader"></div>
+                <p style="margin-top:var(--space-4);color:var(--color-text-muted);">Loading your roadmaps...</p>
+            </div>
+
+            <!-- Main Content -->
+            <div id="mainContent" style="display:none;">
+                <div class="page-header">
+                    <h1>📚 My <span class="text-gradient">Roadmaps</span></h1>
+                    <p style="color:var(--color-text-muted);">Track your learning progress across all saved roadmaps</p>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" style="display:none;">
+                    <h3>🗺️ No Roadmaps Yet</h3>
+                    <p>Analyze a job posting to create your first skill roadmap.</p>
+                    <a href="./index.html#tool" class="btn btn-primary btn-lg">Analyze a Job</a>
+                </div>
+
+                <!-- Roadmaps Grid -->
+                <div class="roadmaps-grid" id="roadmapsGrid"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer" style="margin-top:var(--space-16);">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 SkillPath AI. Made with ❤️ for job seekers.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./storage.js"></script>
+    <script src="./auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loadingState = document.getElementById('loadingState');
+            const notLoggedIn = document.getElementById('notLoggedIn');
+            const mainContent = document.getElementById('mainContent');
+            const emptyState = document.getElementById('emptyState');
+            const roadmapsGrid = document.getElementById('roadmapsGrid');
+
+            // Check auth
+            if (!AuthClient.isLoggedIn()) {
+                loadingState.style.display = 'none';
+                notLoggedIn.style.display = 'block';
+
+                document.getElementById('loginRequiredBtn').addEventListener('click', () => {
+                    AuthUI.openModal('login');
+                });
+                return;
+            }
+
+            // Load roadmaps
+            try {
+                const roadmaps = await AuthClient.getRoadmaps();
+                loadingState.style.display = 'none';
+                mainContent.style.display = 'block';
+
+                if (roadmaps.length === 0) {
+                    emptyState.style.display = 'block';
+                    return;
+                }
+
+                renderRoadmaps(roadmaps);
+            } catch (error) {
+                loadingState.innerHTML = `
+          <p style="color:var(--color-error);">⚠️ ${error.message}</p>
+          <button class="btn btn-secondary" onclick="location.reload()" style="margin-top:var(--space-4);">Retry</button>
+        `;
+            }
+        });
+
+        function renderRoadmaps(roadmaps) {
+            const grid = document.getElementById('roadmapsGrid');
+
+            grid.innerHTML = roadmaps.map(roadmap => {
+                const completedCount = Object.values(roadmap.progress || {}).filter(v => v).length;
+                const totalSkills = roadmap.totalSkills || roadmap.roadmap?.length || 0;
+                const progressPercent = totalSkills > 0 ? Math.round((completedCount / totalSkills) * 100) : 0;
+                const date = new Date(roadmap.createdAt).toLocaleDateString();
+
+                return `
+          <div class="roadmap-card" data-id="${roadmap.id}">
+            <div class="roadmap-card-header">
+              <div>
+                <h3>${roadmap.jobTitle}</h3>
+                <div class="roadmap-card-meta">
+                  <span>📅 ${date}</span> • 
+                  <span>🎯 ${totalSkills} skills</span>
+                </div>
+              </div>
+              <button class="roadmap-card-delete" onclick="deleteRoadmap('${roadmap.id}')" title="Delete">🗑️</button>
+            </div>
+            
+            <div class="roadmap-progress">
+              <div class="roadmap-progress-bar">
+                <div class="roadmap-progress-fill" style="width:${progressPercent}%"></div>
+              </div>
+              <div class="roadmap-progress-text">
+                <span>${completedCount} of ${totalSkills} completed</span>
+                <span>${progressPercent}%</span>
+              </div>
+            </div>
+            
+            <div class="roadmap-card-footer">
+              <a href="roadmap.html?id=${roadmap.id}" class="btn btn-primary" style="flex:1;">Continue Learning</a>
+            </div>
+          </div>
+        `;
+            }).join('');
+        }
+
+        async function deleteRoadmap(id) {
+            if (!confirm('Delete this roadmap? This cannot be undone.')) return;
+
+            try {
+                await AuthClient.deleteRoadmap(id);
+                document.querySelector(`[data-id="${id}"]`).remove();
+
+                // Check if empty
+                const grid = document.getElementById('roadmapsGrid');
+                if (grid.children.length === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                }
+            } catch (error) {
+                alert('Failed to delete: ' + error.message);
+            }
+        }
+    </script>
+</body>
+
+</html>
